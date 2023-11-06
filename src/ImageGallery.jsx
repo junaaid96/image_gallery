@@ -22,13 +22,15 @@ const UploadImage = (data) => {
         });
 };
 
-const AddImage = () => {
+const ImageGallery = () => {
     const [imageURLs, setImageURLs] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]); // Store selected image indexes
 
     // Load image URLs from local storage when the component mounts
     useEffect(() => {
-        const storedImageURLs = JSON.parse(localStorage.getItem("uploadedImageURLs") || "[]");
+        const storedImageURLs = JSON.parse(
+            localStorage.getItem("uploadedImageURLs") || "[]"
+        );
         setImageURLs(storedImageURLs);
     }, []);
 
@@ -42,7 +44,10 @@ const AddImage = () => {
                     setImageURLs(newImageURLs);
 
                     // Store the updated image URLs in local storage
-                    localStorage.setItem("uploadedImageURLs", JSON.stringify(newImageURLs));
+                    localStorage.setItem(
+                        "uploadedImageURLs",
+                        JSON.stringify(newImageURLs)
+                    );
                 })
                 .catch((error) => console.error(error));
         }
@@ -50,7 +55,9 @@ const AddImage = () => {
 
     const handleDeleteClick = () => {
         // Delete the selected images and update the state
-        const newImageURLs = imageURLs.filter((_, index) => !selectedImages.includes(index));
+        const newImageURLs = imageURLs.filter(
+            (_, index) => !selectedImages.includes(index)
+        );
         setImageURLs(newImageURLs);
 
         // Clear selected images
@@ -76,15 +83,23 @@ const AddImage = () => {
                 <div>
                     {imageURLs.length > 0 ? (
                         <>
-                            <button onClick={handleDeleteClick} className="delete-selected-button">
+                            <button
+                                onClick={handleDeleteClick}
+                                className="delete-selected-button"
+                            >
                                 Delete Selected
                             </button>
                             {imageURLs.map((url, index) => (
-                                <div key={index} className="relative inline-block">
+                                <div
+                                    key={index}
+                                    className="relative inline-block"
+                                >
                                     <input
                                         type="checkbox"
                                         checked={selectedImages.includes(index)}
-                                        onChange={() => handleImageSelect(index)}
+                                        onChange={() =>
+                                            handleImageSelect(index)
+                                        }
                                         className="image-checkbox"
                                     />
                                     <img
@@ -111,4 +126,4 @@ const AddImage = () => {
     );
 };
 
-export default AddImage;
+export default ImageGallery;

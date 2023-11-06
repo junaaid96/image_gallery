@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const userImageHostingKey = import.meta.env.VITE_REACT_APP_imgbb_api;
 
-const notifyError = () => toast.error("No Image Selected!");
 const notifySuccess = () => toast.success("Image Deleted!");
 
 const UploadImage = (data) => {
@@ -95,18 +94,22 @@ const ImageGallery = () => {
                 </a>{" "}
                 and will store the imgURL in your localStorage temporary.
             </p>
-            <div className="flex justify-between items-center mb-20">
-                <p className="font-medium">{selectedImages.length} Selected</p>
-                <button
-                    onClick={
-                        selectedImages.length != 0
-                            ? handleDeleteClick
-                            : notifyError
-                    }
-                    className=" bg-red-700 text-white h-fit w-fit relative"
-                >
-                    Delete
-                </button>
+            <div className="flex justify-between items-center mb-10 border-b-2 border-gray-600">
+                {selectedImages.length != 0 ? (
+                    <>
+                        <p className="font-medium mb-1">
+                            {selectedImages.length} Selected
+                        </p>
+                        <button
+                            onClick={handleDeleteClick}
+                            className=" bg-red-700 text-white h-fit w-fit relative mb-1"
+                        >
+                            Delete
+                        </button>
+                    </>
+                ) : (
+                    <p className="font-medium">Gallery</p>
+                )}
             </div>
             <div className="flex flex-wrap justify-center items-center">
                 {imageURLs.length > 0 ? (

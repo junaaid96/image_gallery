@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const userImageHostingKey = import.meta.env.VITE_REACT_APP_imgbb_api;
+
+const notifyError = () => toast.error("No Image Selected!");
+const notifySuccess = () => toast.success("Image Deleted!");
 
 const UploadImage = (data) => {
     const formData = new FormData();
@@ -65,6 +70,9 @@ const ImageGallery = () => {
 
         // Update the stored image URLs in local storage
         localStorage.setItem("uploadedImageURLs", JSON.stringify(newImageURLs));
+
+        //Show success msg
+        notifySuccess();
     };
 
     const handleImageSelect = (index) => {
@@ -79,48 +87,59 @@ const ImageGallery = () => {
 
     return (
         <>
-            <div className="flex">
-                <div>
-                    {imageURLs.length > 0 ? (
-                        <>
-                            <button
-                                onClick={handleDeleteClick}
-                                className="delete-selected-button"
-                            >
-                                Delete Selected
-                            </button>
-                            {imageURLs.map((url, index) => (
-                                <div
-                                    key={index}
-                                    className="relative inline-block"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedImages.includes(index)}
-                                        onChange={() =>
-                                            handleImageSelect(index)
-                                        }
-                                        className="image-checkbox"
-                                    />
-                                    <img
-                                        src={url}
-                                        alt={`Uploaded image ${index + 1}`}
-                                        className="max-w-xs max-h-xs m-2"
-                                    />
-                                </div>
-                            ))}
-                        </>
-                    ) : (
-                        <p>No images uploaded</p>
-                    )}
-                </div>
-                <div className="card">
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                    />
-                </div>
+            <h1 className="font-semibold">Public Image Gallery</h1>
+            <p className="mb-20 mt-2 font-medium">
+                All images will upload to{" "}
+                <a href="https://md-junaidul.imgbb.com/" target="blank">
+                    imgBB
+                </a>{" "}
+                and will store the imgURL in your localStorage temporary.
+            </p>
+            <div className="flex justify-between items-center mb-20">
+                <p className="font-medium">{selectedImages.length} Selected</p>
+                <button
+                    onClick={
+                        selectedImages.length != 0
+                            ? handleDeleteClick
+                            : notifyError
+                    }
+                    className=" bg-red-700 text-white h-fit w-fit relative"
+                >
+                    Delete
+                </button>
+            </div>
+            <div className="flex flex-wrap justify-center items-center">
+                {imageURLs.length > 0 ? (
+                    <>
+                        {imageURLs.map((url, index) => (
+                            <div key={index}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedImages.includes(index)}
+                                    onChange={() => handleImageSelect(index)}
+                                    className="relative top-8 left-36 accent-red-700"
+                                />
+                                <img
+                                    src={url}
+                                    alt={`Uploaded image ${index + 1}`}
+                                    className="max-w-xs max-h-xs m-2"
+                                />
+                            </div>
+                        ))}
+                    </>
+                ) : (
+                    <p className="text-yellow-400">
+                        No images uploaded. Try upload some.
+                    </p>
+                )}
+            </div>
+            <div className="mt-10">
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="border"
+                />
             </div>
         </>
     );

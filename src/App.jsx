@@ -1,11 +1,14 @@
 import ImageGallery from "./ImageGallery";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     return (
         <>
-            <h1 className="mb-20">Public Image Gallery</h1>
-            <ImageGallery></ImageGallery>
+            <ImageGallery />
+            <ToastContainer 
+            position="top-center"
+            />
         </>
     );
 }

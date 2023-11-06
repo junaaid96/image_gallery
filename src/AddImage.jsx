@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const userImageHostingKey = import.meta.env.VITE_REACT_APP_imgbb_api;
 
